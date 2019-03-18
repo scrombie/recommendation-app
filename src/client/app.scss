@@ -1,0 +1,264 @@
+$colorOrange: #FF9800;
+$colorBlue: #2196F3;
+$labelBgColor-default: #ccc;
+$textColor-white: white;
+$textColor-dark: #353434;
+$fontSize-small: 0.8rem;
+$fontSize-medium: 1rem;
+$fontSize-large: 1.5rem;
+$fontSize-very-large: 2.5rem;
+$colorGrey: rgb(78, 78, 78);
+$colorWhite: rgb(238, 238, 238);
+
+@import url('https://fonts.googleapis.com/css?family=Merriweather|PT+Sans|Raleway');
+
+html, body {
+  width: 100%;
+  padding:0;
+  color: #191818;
+  font-family: 'Raleway', Courier, sans-serif;
+  font-size: $fontSize-medium;
+}
+
+h1,h1,h3,h4,h5,h6 {
+  margin: 1rem 0;
+}
+
+hr {
+  margin: 1rem 0;
+  padding: 0 1rem;
+  color: $colorGrey;
+}
+
+textarea:focus, input:focus{
+  outline: none;
+}
+
+.text-title {
+  font-size: $fontSize-very-large;
+  font-weight: bolder;
+}
+
+.text-sub-title {
+  font-size: $fontSize-large;
+  font-weight: normal;
+}
+
+.btn {
+  padding: 0.5rem 1.5rem;
+  border: 1px solid $colorGrey;
+  font-size: 1rem;
+  border-radius: 0.3rem;  
+  cursor: pointer;
+}
+
+.btn.btn-link {
+  border: none;
+  box-shadow: none;
+  font-size: $fontSize-medium;
+  text-decoration: underline;
+  padding: 0;
+  margin: 0.5rem 0;
+  background: none;
+}
+
+.form-wrapper {
+  margin-bottom: 1rem;
+
+  p {
+    margin: 0.5rem 0;
+  }
+
+  .text-input {
+    font-size: 1.5rem;
+    font-weight: normal;
+    padding: 0.3rem;
+    min-width: 20rem;
+    /* box-shadow: none; */
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    display: block;
+    margin: 1rem 0;
+  }
+}
+
+.container {
+  padding: 1rem 5rem;
+  display: flex;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+  justify-content: space-evenly;
+  height: 80vh;
+}
+
+section.input {
+  flex: 1;
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+}
+
+section.output {
+  flex: 1;
+  display: flex;
+  padding: 2rem;
+  width: 50%;
+  background: #f3f1f1;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  // box-shadow: inset 0 0 12px 5px #dcdcdc;
+  position: relative;
+  overflow-y: scroll;
+}
+
+.label-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+
+  .label {
+    background: $labelBgColor-default;
+    border-radius: 0.6rem;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    color: $textColor-dark; 
+    font-size: $fontSize-small;  
+    text-transform: lowercase; 
+
+    .remove {
+      margin-left: 0.7rem;
+      font-size: $fontSize-medium;
+      cursor: pointer;
+      color: $textColor-dark;
+      line-height: $fontSize-small;
+    }
+  }
+
+  .label.blue {
+    background: $colorBlue;
+    color: $textColor-white;
+
+    .remove {
+      color: $textColor-white
+    }
+  }
+
+  .label.orange {
+    background-color: $colorOrange;
+    color: $textColor-white;
+    .remove {
+      color: $textColor-white
+    }
+  }
+
+  :nth-child(n+1) {
+    margin-right: 0.5rem;
+  }
+}
+
+.select {
+  display: flex;
+  flex-direction: column;
+  position: relative;   
+  margin: 1rem 0; 
+
+  .input-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0.5rem;    
+    // min-width: 20rem;
+    /* box-shadow: none; */
+    border: 1px solid #ccc;
+    border-radius: 0.5rem; 
+
+    .input {
+      font-size: $fontSize-medium;
+      font-weight: normal;  
+      border: none;
+      box-shadow: none;    
+      width:100%;
+    }
+  }
+
+  ul.dropdown {
+    margin-top: 0;
+    max-height: 20rem;
+    overflow-y: scroll;
+    border-bottom: 1px solid rgba(9, 64, 99, 0.1);
+    z-index: 9999;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: $colorWhite;
+    list-style: none;
+    padding-left: 0;
+
+
+    .item {
+      cursor: pointer;  
+      border-bottom: 1px solid #eee;
+      padding: 0.5rem;      
+      
+      .text-main {
+        margin-bottom: 0.5rem;
+        font-size: $fontSize-medium;
+      }
+
+      .text-sub {
+        font-size: $fontSize-small;
+        color: #aaa;
+      }
+    }
+  }
+}
+
+.select.multi {
+
+  .input-wrapper {   
+
+    .item {
+      background: $labelBgColor-default;
+      border-radius: 0.6rem;
+      padding: 0.5rem;
+      color: $textColor-dark; 
+      font-size: $fontSize-small;  
+      text-transform: lowercase; 
+      margin-right: 0.5rem;
+  
+      .remove {
+        margin-left: 0.7rem;
+        font-size: $fontSize-medium;
+        cursor: pointer;
+        color: $textColor-dark;
+        line-height: $fontSize-small;
+      }
+    }
+
+    .input {
+      width: auto;
+    }
+  }
+}
+
+.sample-wrapper {
+  border: 1px dotted #ccc;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  max-width: 80%;
+  background: #f9f9f9;
+  font-family: monospace;
+  margin-top: 1rem;
+
+  .title {
+    font-size: 1rem;
+  }
+
+  .diagnosis {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }  
+}
