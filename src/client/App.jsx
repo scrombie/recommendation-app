@@ -8,8 +8,8 @@ import './app.scss';
 import FilterableSelect from './components/FilterableSelect';
 import Label from './components/Label';
 import LoadingScreen from './components/LoadingScreen';
-import DiagnosisComponent from './components/DiagnosisComponent';
-import NoResultComponent from './components/NoResultComponent';
+import SearchBox from './components/SearchBox';
+import ResultContainer, { VIEW, defaultViewData } from './components/ResultContainer';
 
 const API = {
   getAllSymptoms: '/api/symptoms',
@@ -58,12 +58,17 @@ export default class App extends Component {
     }
   )
 
+  search = memoize(
+    (query, filter) => get('/api/search', { s: query, type: filter === 'all' ? '' : filter })
+      .then(r => r)
+  );
+
   state = {
     isLoading: false,
     symptoms: [],
     path: [],
-    diagnosis: null,
-    samples: []
+    samples: [],
+    viewData: defaultViewData
   };
 
   componentDidMount() {
@@ -76,7 +81,7 @@ export default class App extends Component {
     get(API.getAllSymptoms)
       .then((symptoms) => {
         this.setLoading(false);
-        this.setState({ symptoms, path: [], diagnosis: null });
+        this.setState({ symptoms, path: [], viewData: defaultViewData });
       });
   }
 
@@ -111,10 +116,28 @@ export default class App extends Component {
         this.setState({
           isLoading: false,
           symptoms,
-          diagnosis
+          viewData: {
+            path,
+            diagnosis,
+            currentView: diagnosis ? VIEW.viewDiagnosis : VIEW.investigationResult,
+            id: !diagnosis ? null : { diagnosis }
+          }
         });
       });
     }
+  }
+
+  performSearch = (query, filter) => {
+    this.setLoading(true);
+    this.search(query, filter)
+      .then(({ results }) => this.setState({
+        isLoading: false,
+        viewData: Object.assign(
+          {},
+          defaultViewData,
+          { currentView: VIEW.searchResult, search: { query, results } }
+        )
+      }));
   }
 
   removeSymptomFromPath = (sId) => {
@@ -124,13 +147,30 @@ export default class App extends Component {
     }, () => this.performInvestigation());
   };
 
+  onView = (node, type) => {
+    this.setState({
+      viewData: Object.assign({}, defaultViewData, {
+        currentView: type === VIEW.viewDiagnosis ? type : VIEW.viewSymptom,
+        id: {
+          symptom: type === VIEW.viewSymptom ? node : null,
+          diagnosis: type === VIEW.viewDiagnosis ? node : null
+        }
+      })
+    });
+  }
+
   render() {
     const {
-      symptoms, path, isLoading, diagnosis, samples
+      symptoms, path, isLoading, samples, viewData
     } = this.state;
     return (
       <div className="container">
         <section className="input">
+          <SearchBox
+            placeholder="Search here..."
+            filters={['diagnosis', 'symptoms', 'all']}
+            onSearch={this.performSearch}
+          />
           <div className="title-wrapper">
             <h1 className="text-title">An App </h1>
             <h3 className="text-sub-title">An app that does stuff</h3>
@@ -165,6 +205,7 @@ export default class App extends Component {
                   text={p.name}
                   color="orange"
                   onRemove={this.removeSymptomFromPath}
+                  onClick={() => this.onView(p, VIEW.viewSymptom)}
                 />
               ))}
             </div>
@@ -183,7 +224,7 @@ export default class App extends Component {
                 <span>{getKeys(s.symptoms, 'name').join(',')}</span>
               </p>
             )) : (
-              <button className="btn" onClick={this.getSamples} type="button">
+              <button className="btn btn-link" onClick={this.getSamples} type="button">
                 Load Samples
               </button>
             )}
@@ -192,12 +233,20 @@ export default class App extends Component {
         <section className="output">
           {isLoading ? (<LoadingScreen />) : (
             <React.Fragment>
-              {diagnosis ? (
-                <DiagnosisComponent diagnosis={diagnosis} />
-              ) : (
-                <NoResultComponent symptoms={path.length > 0 ? path : []} />
-              ) }
+              <button className="btn btn-reset" type="button" onClick={this.initialize}>&times;</button>
+              <ResultContainer
+                view={viewData.currentView}
+                data={viewData}
+                onView={this.onView}
+              />
             </React.Fragment>
+            // <React.Fragment>
+            //   {diagnosis ? (
+            //     <DiagnosisComponent diagnosis={diagnosis} />
+            //   ) : (
+            //     <NoResultComponent symptoms={path.length > 0 ? path : []} />
+            //   ) }
+            // </React.Fragment>
           )}
         </section>
       </div>

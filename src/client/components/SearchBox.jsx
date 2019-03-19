@@ -42,14 +42,20 @@ class SearchBox extends React.Component {
     }
   };
 
+  handleKeyPress = (e) => {
+    if (e.keyCode === 13) {
+      this.onSubmit();
+    }
+  }
+
   render() {
-    const { filters } = this.state;
+    const { filters, query } = this.state;
     const { placeholder } = this.props;
     return (
       <div className="input-group left right">
         <div className="extra">
           <select name="filter" id="filter" onChange={this.onChangeFilter}>
-            {filters.map(f => (<option value={f}>{f}</option>))}
+            {filters.map(f => (<option value={f} key={f}>{f}</option>))}
           </select>
         </div>
         <div className="input">
@@ -57,11 +63,14 @@ class SearchBox extends React.Component {
             type="text"
             placeholder={placeholder || 'Search Here'}
             onInput={this.handleInput}
+            onChange={this.handleInput}
+            onKeyDown={this.handleKeyPress}
+            value={query}
           />
         </div>
         <div className="extra">
           <button type="button">
-            <i className="fa fa search" />
+            <i className="fas fa-search" />
           </button>
         </div>
       </div>

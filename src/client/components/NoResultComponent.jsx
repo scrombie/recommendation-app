@@ -1,7 +1,9 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getKeys } from '../utils/utils';
 import Label from './Label';
+import { VIEW } from './ResultContainer';
 
 class NoResultComponent extends React.Component {
   constructor(props) {
@@ -33,7 +35,7 @@ class NoResultComponent extends React.Component {
   };
 
   render() {
-    const { symptoms } = this.props;
+    const { symptoms, onView } = this.props;
     const { showPossibleDiagnosis, possibleDiagnosis } = this.state;
     return (
       <div className="output-wrapper">
@@ -53,7 +55,7 @@ class NoResultComponent extends React.Component {
           {showPossibleDiagnosis
             && (
               <div className="label-wrapper">
-                  {possibleDiagnosis.map(d => <Label key={d.id} id={d.id} text={d.name} color="blue" />)}
+                  {possibleDiagnosis.map(d => <Label key={d.id} id={d.id} text={d.name} color="blue" onClick={() => onView(d, VIEW.viewDiagnosis)} />)}
               </div>
             )
           }
@@ -66,7 +68,8 @@ class NoResultComponent extends React.Component {
 }
 
 NoResultComponent.propTypes = {
-  symptoms: PropTypes.instanceOf(Array).isRequired
+  symptoms: PropTypes.instanceOf(Array).isRequired,
+  onView: PropTypes.instanceOf(Function)
 };
 
 export default NoResultComponent;

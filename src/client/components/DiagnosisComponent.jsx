@@ -1,3 +1,4 @@
+/* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
 import LoadingScreen from './LoadingScreen';
@@ -23,7 +24,7 @@ class DiagnosisComponent extends React.Component {
     const { diagnosis } = this.props;
     return (
       <div className="output-wrapper">
-        <h1>Match Found!</h1>
+        <h1>Diagnosis</h1>
         <hr />
         <h2>{diagnosis.name}</h2>
         <p>This is a description of this diagnosis.</p>
