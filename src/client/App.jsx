@@ -35,7 +35,7 @@ export default class App extends Component {
           if (dList.length === 1) {
             // get all symptoms of diagnosis found
             return get(API.getDiagnosis(dList[0].id))
-              .then(d => ({ symptoms: listFilter(d.symptoms, symptomIds, 'id'), diagnosis: null }));
+              .then(d => ({ symptoms: listFilter(d[0].symptoms, symptomIds, 'id'), diagnosis: null }));
           }
           // get all symptoms across all diagnosis found
           // && select another symptom from new symptom list
@@ -148,7 +148,7 @@ export default class App extends Component {
               <FilterableSelect
                 items={symptoms}
                 filterBy={['name']}
-                placeholder="Search here"
+                placeholder={path.length > 0 ? 'Enter another Symptom' : 'Enter a symptom'}
                 input={{ value: '', onChange: this.addSymptomToPath }}
               />
             </div>
