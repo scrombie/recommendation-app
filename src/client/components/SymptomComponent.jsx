@@ -1,7 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { post } from '../utils/utils';
+import { get } from '../utils/utils';
 import LoadingScreen from './LoadingScreen';
 import Label from './Label';
 import { VIEW } from './ResultContainer';
@@ -17,8 +17,8 @@ class SymptomComponent extends React.Component {
   componentDidMount() {
     const { symptom } = this.props;
 
-    post('/api/symptoms/search-by-diagnosis', [symptom.id])
-      .then(results => this.setState({ possibleDiagnosis: results }));
+    get(`/api/symptoms/${symptom.id}`)
+      .then(results => this.setState({ possibleDiagnosis: results[0].diagnosis }));
   }
 
   render() {
@@ -41,7 +41,7 @@ class SymptomComponent extends React.Component {
           >
             {possibleDiagnosis.length === 0 ? (<LoadingScreen />) : (
               <div className="label-wrapper">
-                {possibleDiagnosis.map(d => <Label key={d.id} id={d.id} text={d.name} color="orange" onClick={() => onView(d.id, VIEW.viewDiagnosis)} />)}
+                {possibleDiagnosis.map(d => <Label key={d.id} id={d.id} text={d.name} color="blue" onClick={() => onView(d, VIEW.viewDiagnosis)} />)}
               </div>
             )}
           </div>

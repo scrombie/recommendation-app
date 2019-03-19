@@ -175,7 +175,7 @@ export default class App extends Component {
             <h1 className="text-title">An App </h1>
             <h3 className="text-sub-title">An app that does stuff</h3>
           </div>
-          <div className="form-wrapper" style={{ width: '50%' }}>
+          <div className="form-wrapper">
             <div className="form-group">
               <p className="form-label">{path.length >= 1 ? 'Enter another Symptom' : 'Enter a Main Symptom'}</p>
               {/* <input type="text" className="text-input" id="input" /> */}

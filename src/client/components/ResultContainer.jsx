@@ -23,12 +23,20 @@ export const defaultViewData = {
 
 const ResultContainer = ({ view, data, onView }) => (
   <React.Fragment>
-    {view === VIEW.investigationResult && (<NoResultComponent symptoms={data.path} onView={onView} />)}
+    {view === VIEW.investigationResult && (
+      <NoResultComponent symptoms={data.path} onView={onView} />
+    )}
     {view === VIEW.viewDiagnosis && (
-      <DiagnosisComponent diagnosis={data.id.diagnosis} onView={onView} />)}
+      <DiagnosisComponent diagnosis={data.id.diagnosis} onView={onView} />
+    )}
     {view === VIEW.viewSymptom && (<SymptomComponent symptom={data.id.symptom} onView={onView} />)}
     {view === VIEW.searchResult && (
-      <SearchResultComponent query={data.search.query} results={data.search.results} onView={onView} />)}
+      <SearchResultComponent
+        query={data.search.query}
+        results={data.search.results}
+        onView={onView}
+      />
+    )}
   </React.Fragment>
 );
 

@@ -129,7 +129,7 @@ function getSymptom(symptomId) {
     `
     MATCH (s:Symptom {id:'${symptomId}'})-[:${REL_SYMPTOM_OF}]->(d)
     WITH s, COLLECT({id:d.id, name:d.name}) AS diagnosis
-    RETURN s.id AS id, s.name AS name, diagnosis
+    RETURN DISTINCT s.id AS id, s.name AS name, diagnosis
     `
   );
 }
@@ -142,7 +142,7 @@ function getDiagnosis(diagnosisId) {
     `   
     MATCH (s)-[:${REL_SYMPTOM_OF}]->(d:${LABEL_DIAGNOSIS} {id:'${diagnosisId}'})
     WITH d, COLLECT({id:s.id, name:s.name}) AS symptoms
-    RETURN d.id AS id, d.name AS name, symptoms 
+    RETURN DISTINCT d.id AS id, d.name AS name, symptoms 
     `
   );
 }

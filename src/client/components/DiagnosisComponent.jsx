@@ -1,6 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { get } from '../utils/utils';
 import LoadingScreen from './LoadingScreen';
 import Label from './Label';
 
@@ -14,8 +15,7 @@ class DiagnosisComponent extends React.Component {
 
   componentDidMount() {
     const { diagnosis } = this.props;
-    fetch(`/api/diagnosis/${diagnosis.id}`)
-      .then(res => res.json())
+    get(`/api/diagnosis/${diagnosis.id}`)
       .then(r => this.setState({ symptoms: r[0].symptoms }));
   }
 
