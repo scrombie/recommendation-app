@@ -1,6 +1,17 @@
-# CDDS-App
+# CDS-App
 A Simple clinical decision support app.
 
+Makes use of a Neo4j graph database to store relationships between diagnosis and symptoms and uses a simple comparison algorithm to use symptoms specified to try to infer the diagnosis.
+
+**WARNING**: This is not intended for real life usage. 
+
+## Instructions
+- Go to https://neo4j.com/download/ to download and setup a Neo4j graph database on your machine
+- Run the setup commands below to load data
+- Run `npm i`
+- Run `npm start dev`
+
+## Setup 
 #### Load Diagnosis nodes
 ```
 LOAD CSV WITH HEADERS FROM "https://gist.githubusercontent.com/scrombie/0a354679708214ee43c859f9d07cbb01/raw/cdca15b1401288bf776d6d3302cd3ff7614e01cc/diagnosis.csv" AS csvLine
